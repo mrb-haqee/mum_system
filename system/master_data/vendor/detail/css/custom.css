@@ -1,0 +1,9 @@
+#labelNIKHotel,#labelNamaHotel,#labelNoTelpHotel,
+#labelEmailHotel,#labelAlamatHotel{
+  color: red;
+  display: none;
+}
+
+.borderMerah{
+  border:  solid 1px #FF0000 !important;
+}

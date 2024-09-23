@@ -1,0 +1,16 @@
+.tombol-dropdown{
+  margin-left: 5px; 
+  margin-bottom: 5px; 
+  width: 92%;
+  text-align: left !important;
+}
+
+.tombol-dropdown-last{
+  margin-left: 5px; 
+  width: 92%;
+  text-align: left !important;
+}
+
+.menu-aksi{
+  width: 100px !important;
+}
