@@ -102,14 +102,14 @@ if (!$dataCekUser || !$dataCekMenu || !validateIP($_SESSION['IP_ADDR'])) {
                                         </a>
                                     </li>
                                     <li class="navi-item">
-                                        <a href="#" class="navi-link text-center">
+                                        <a href="#" class="navi-link text-center" onclick="prosesValidasiPurchasing('<?= $row['kodePurchasing'] ?>','Approve','<?= $tokenCSRF ?>')">
                                             <span class="navi-text">
                                                 <span class="label label-xl label-inline label-light-success w-100">APPROVE</span>
                                             </span>
                                         </a>
                                     </li>
                                     <li class="navi-item">
-                                        <a href="#" class="navi-link text-center">
+                                        <a href="#" class="navi-link text-center" onclick="prosesValidasiPurchasing('<?= $row['kodePurchasing'] ?>','Reject','<?= $tokenCSRF ?>')">
                                             <span class="navi-text">
                                                 <span class="label label-xl label-inline label-light-danger w-100">REJECT</span>
                                             </span>

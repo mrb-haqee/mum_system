@@ -54,7 +54,7 @@ function EditBtn() {
 }
 
 function prosesValidasiPurchasing(kodePurchasing, statusPersetujuan, token) {
-  const keterangan = $("#keterangan").val();
+  const keterangan = $("#keterangan").val() ? $("#keterangan").val() : "";
 
   Swal.fire({
     title: "Apakah anda yakin?",

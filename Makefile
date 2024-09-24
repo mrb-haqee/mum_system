@@ -4,7 +4,7 @@ reload:
 php:
 	php test/test.php
 
-BRANCH = main
+BRANCH = fitur_purchasing
 
 # Pull perubahan terbaru dari branch utama
 pull:

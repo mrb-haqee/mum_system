@@ -100,7 +100,7 @@ if (!$dataCekUser || !$dataCekMenu || !validateIP($_SESSION['IP_ADDR'])) {
                         $n = 1;
                         foreach ($dataPurchasing as $row) {
                             $query = encryptURLParam([
-                                'kodePurchasing' => $row['kodePurchasing'],
+                                'kode' => $row['kodePurchasing'],
                             ]);
                     ?>
                             <tr>
@@ -120,7 +120,7 @@ if (!$dataCekUser || !$dataCekMenu || !validateIP($_SESSION['IP_ADDR'])) {
                                                 <i class="fas fa-trash"></i> <strong>DELETE</strong>
                                             </button>
                                         <?php else: ?>
-                                            <a href="print/" class="btn btn-success btn-sm tombol-dropdown-last">
+                                            <a href="print/?param=<?= $query ?>" target="_blank" class="btn btn-success btn-sm tombol-dropdown-last">
                                                 <i class="fas fa-file-pdf"></i> <strong>EXPORT PDF</strong>
                                             </a>
                                         <?php endif ?>

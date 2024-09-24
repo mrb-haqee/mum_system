@@ -1,0 +1,34 @@
+.th-user button{
+	font-weight: bold;
+}
+
+.tombol-dropdown{
+  margin-left: 5px; 
+  margin-bottom: 5px; 
+  width: 92%;
+  text-align: left !important;
+}
+
+.tombol-dropdown-last{
+  margin-left: 5px; 
+  width: 92%;
+  text-align: left !important;
+}
+
+.menu-aksi{
+  width: 140px !important;
+}
+
+.menu-aksi-akses-menu{
+  width: 80px !important;
+}
+
+#labelPegawai, #labelUserName, #labelPassword,
+#labelMenu, #labelSubMenu, #labelJenisUser{
+  color: red;
+  display: none;
+}
+
+.borderMerah{
+  border:  solid 1px #FF0000 !important;
+}
