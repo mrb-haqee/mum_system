@@ -16,6 +16,11 @@ commit:
 	git commit -m "$(m)"
 	git push origin $(BRANCH)
 
+commitb:
+	git add .
+	git commit -m "$(m)"
+	git push origin $(b)
+
 # Check status dari repository Git
 status:
 	git status
