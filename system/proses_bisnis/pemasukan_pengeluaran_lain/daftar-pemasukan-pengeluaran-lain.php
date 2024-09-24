@@ -78,9 +78,9 @@ if (!$dataCekUser || !$dataCekMenu || !validateIP($_SESSION['IP_ADDR'])) {
                             FROM
                                 pemasukan_pengeluaran_lain
                                 INNER JOIN (
-                                    SELECT ACCOUNT.namaAccount, sub_account.*
+                                    SELECT account.namaAccount, sub_account.*
                                     FROM sub_account
-                                        INNER JOIN ACCOUNT ON sub_account.kodeAccount = ACCOUNT.kodeAccount
+                                        INNER JOIN account ON sub_account.kodeAccount = account.kodeAccount
                                 ) merge_account ON pemasukan_pengeluaran_lain.idSubAccount = merge_account.idSubAccount
                                 INNER JOIN petty_cash ON pemasukan_pengeluaran_lain.idRekening = petty_cash.idPettyCash
                             WHERE (

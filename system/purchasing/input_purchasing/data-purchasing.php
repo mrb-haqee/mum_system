@@ -120,9 +120,9 @@ if (!$dataCekUser || !$dataCekMenu || !validateIP($_SESSION['IP_ADDR'])) {
                                                 <i class="fas fa-trash"></i> <strong>DELETE</strong>
                                             </button>
                                         <?php else: ?>
-                                            <button type="button" class="btn btn-success btn-sm tombol-dropdown-last" onclick="deletePurchasing('<?= $row['kodePurchasing'] ?>', '<?= $tokenCSRF ?>')">
+                                            <a href="print/" class="btn btn-success btn-sm tombol-dropdown-last">
                                                 <i class="fas fa-file-pdf"></i> <strong>EXPORT PDF</strong>
-                                            </button>
+                                            </a>
                                         <?php endif ?>
                                     </div>
                                 </td>
