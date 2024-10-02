@@ -71,10 +71,10 @@ if (!$dataCekUser || !$dataCekMenu || !validateIP($_SESSION['IP_ADDR'])) {
         "SELECT 
             * 
         FROM 
-            stock_awal_barang
-            INNER JOIN barang ON barang.kodeBarang =  stock_awal_barang.kodeBarang
+            stock_awal
+            INNER JOIN barang ON barang.idBarang = stock_awal.idInventory
         where 
-            barang.statusbarang = ?
+            stock_awal.tipeInventory = 'barang' AND barang.statusBarang = ?
             {$parameter['nama']}
         ",
         $execute
@@ -127,7 +127,7 @@ if (!$dataCekUser || !$dataCekMenu || !validateIP($_SESSION['IP_ADDR'])) {
                         <span class="text-muted font-weight-bold">Qty</span>
                     </td>
                     <td>
-                        <span class="d-block font-weight-bold"><?= $row['satuanBarang'] ?></span>
+                        <span class="d-block font-weight-bold"><?= $row['satuan'] ?></span>
                         <span class="text-muted font-weight-bold">Satuan</span>
                     </td>
                 </tr>

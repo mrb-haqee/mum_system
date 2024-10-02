@@ -92,8 +92,6 @@ if (!$dataCekUser || !$dataCekMenu) {
                             'Master Data' => 'master_data',
                             'Laporan' => 'laporan',
                             'Proses Bisnis' => 'proses_bisnis',
-                            'Purchasing' => 'purchasing',
-
                         ];
 
                         foreach ($opsi as $nama => $dir) {

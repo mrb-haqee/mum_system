@@ -61,16 +61,27 @@ if (!$dataCekUser || !$dataCekMenu || !validateIP($_SESSION['IP_ADDR'])) {
 
     $dataUpdate = statementWrapper(
         DML_SELECT_ALL,
-        'SELECT purchasing.*, vendor.nama as namaVendor, vendor.alamat, vendor.noTelp, purchasing_detail.*, barang.*
-        FROM purchasing
-        INNER JOIN purchasing_detail ON purchasing.kodePurchasing = purchasing_detail.kodePurchasing
-        INNER JOIN barang ON purchasing_detail.idBarang = barang.idBarang
-        LEFT JOIN vendor ON purchasing.kodeVendor = vendor.kodeVendor
-        WHERE purchasing.kodePurchasing=?',
-        [$kodePurchasing]
+        'SELECT stock_po.*, vendor.nama as namaVendor, vendor.alamat, vendor.noTelp, stock_po_detail.*, stock_po_pembayaran.*, barang.*
+        FROM stock_po
+        INNER JOIN stock_po_detail ON stock_po.kodePO = stock_po_detail.kodePO
+        INNER JOIN barang ON stock_po_detail.idInventory = barang.idBarang
+        INNER JOIN stock_po_pembayaran ON stock_po.kodePO = stock_po_pembayaran.kodePO
+        LEFT JOIN vendor ON stock_po.kodeVendor = vendor.kodeVendor
+        WHERE stock_po.kodePO=?',
+        [$kodePO]
     );
 
-    ['namaVendor' => $namaVendor, 'alamat' => $alamat, 'noTelp' => $noTelp, 'discount' => $discount, 'ppn' => $ppn, 'metodePembayaran' => $metodePembayaran] = $dataUpdate[0]
+    [
+        'namaVendor' => $namaVendor,
+        'alamat' => $alamat,
+        'noTelp' => $noTelp,
+        'persentaseDiskon' => $persentaseDiskon,
+        'persentasePpn' => $persentasePpn,
+        'diskon' => $diskon,
+        'ppn' => $ppn,
+        'metodeBayar' => $metodeBayar,
+        'grandTotal' => $grandTotal
+    ] = $dataUpdate[0]
 
 ?>
 
@@ -119,7 +130,7 @@ if (!$dataCekUser || !$dataCekMenu || !validateIP($_SESSION['IP_ADDR'])) {
                 <tr>
                     <td><?= $index + 1 ?></td>
                     <td><?= $row['namaBarang'] ?></td>
-                    <td class="text-right"><?= $row['qty'] . ' ' . $row['satuanBarang'] ?></td>
+                    <td class="text-right"><?= ubahToRp($row['qty']) . ' ' . $row['satuanBarang'] ?></td>
                     <td class="text-right">Rp. <?= ubahToRupiahDesimal($row['hargaBarang']) ?></td>
                     <td class="text-right">Rp. <?= ubahToRupiahDesimal($row['subTotal']) ?></td>
                 </tr>
@@ -128,25 +139,23 @@ if (!$dataCekUser || !$dataCekMenu || !validateIP($_SESSION['IP_ADDR'])) {
         </tbody>
         <tr class="font-weight-bolder bg-secondary-o-80">
             <td colspan="4" class="text-right">Jumlah</td>
-            <td class="text-right"><?= ubahToRupiahDesimal($total) ?></td>
-        </tr>
-        <?php $hargaDiscount = ($total * $discount) / 100; ?>
-        <tr class="font-weight-bolder">
-            <td colspan="4" class="text-right">Discount <?= ubahToRupiahDesimal($discount) ?>%</td>
-            <td class="text-right">- Rp <?= ubahToRupiahDesimal($hargaDiscount); ?></td>
+            <td class="text-right">Rp. <?= ubahToRupiahDesimal($total) ?></td>
         </tr>
         <tr class="font-weight-bolder">
-            <td colspan="4" class="text-right">Harga Setelah Discount </td>
-            <td class="text-right ">Rp <?= ubahToRupiahDesimal($total - $hargaDiscount); ?></td>
+            <td colspan="4" class="text-right">diskon <?= $persentaseDiskon ?>%</td>
+            <td class="text-right">- Rp <?= ubahToRupiahDesimal($diskon); ?></td>
         </tr>
-        <?php $hargaPPN = ($hargaDiscount * $ppn) / 100; ?>
         <tr class="font-weight-bolder">
-            <td colspan="4" class="text-right">PPN <?= ubahToRupiahDesimal($ppn) ?>%</td>
-            <td class="text-right">Rp <?= ubahToRupiahDesimal($hargaPPN); ?></td>
+            <td colspan="4" class="text-right">Harga Setelah diskon </td>
+            <td class="text-right ">Rp <?= ubahToRupiahDesimal($total - $diskon); ?></td>
+        </tr>
+        <tr class="font-weight-bolder">
+            <td colspan="4" class="text-right">PPN <?= $persentasePpn ?>%</td>
+            <td class="text-right">Rp <?= ubahToRupiahDesimal($ppn); ?></td>
         </tr>
         <tr class="font-weight-bolder bg-secondary-o-80">
             <td colspan="4" class="text-right">TOTAL </td>
-            <td class="text-right ">Rp <?= ubahToRupiahDesimal($total - $hargaDiscount + $hargaPPN); ?></td>
+            <td class="text-right ">Rp <?= ubahToRupiahDesimal($grandTotal); ?></td>
         </tr>
     </table>
 
@@ -165,7 +174,7 @@ if (!$dataCekUser || !$dataCekMenu || !validateIP($_SESSION['IP_ADDR'])) {
                 <td>2.</td>
                 <td>Pembayaran</td>
                 <td>:</td>
-                <td><?= $metodePembayaran ?></td>
+                <td><?= $metodeBayar ?></td>
             </tr>
         </tbody>
     </table>
@@ -176,12 +185,12 @@ if (!$dataCekUser || !$dataCekMenu || !validateIP($_SESSION['IP_ADDR'])) {
     </div>
     <div class="form-row justify-content-end">
         <div class="form-group text-right">
-            <button type="button" class="btn btn-danger text-center mr-5" onclick="prosesValidasiPurchasing('<?= $kodePurchasing ?>','Reject','<?= $tokenCSRF ?>')">
+            <button type="button" class="btn btn-danger text-center mr-5" onclick="prosesValidasiPurchasing('<?= $kodePO ?>','Reject','<?= $tokenCSRF ?>')">
                 <i class="fas fa-times-circle"></i> <strong>REJECT</strong>
             </button>
         </div>
         <div class="form-group text-right">
-            <button type="button" class="btn btn-success text-center" onclick="prosesValidasiPurchasing('<?= $kodePurchasing ?>','Approve','<?= $tokenCSRF ?>')">
+            <button type="button" class="btn btn-success text-center" onclick="prosesValidasiPurchasing('<?= $kodePO ?>','Approve','<?= $tokenCSRF ?>')">
                 <i class="fas fa-signature"></i> <strong>APPROVE</strong>
             </button>
         </div>

@@ -62,6 +62,11 @@ if (!$dataCekUser || !$dataCekMenu || !validateIP($_SESSION['IP_ADDR'])) {
     } else {
         $kodeBarang = nomorUrut($db, 'inventory_barang', $idUserAsli);
     }
+    if (isset($redirect)) {
+        $urlRedirect = $redirect;
+    }
+
+
 ?>
 
     <!DOCTYPE html>
@@ -180,6 +185,9 @@ if (!$dataCekUser || !$dataCekMenu || !validateIP($_SESSION['IP_ADDR'])) {
                                 <div class="row">
                                     <!-- IMPORTANT VARIABLE -->
                                     <input type="hidden" name="kodeBarang" id="kodeBarang" value="<?= $kodeBarang ?>">
+                                    <?php if ($urlRedirect): ?>
+                                        <input type="hidden" name="urlRedirect" id="urlRedirect" value="<?= $urlRedirect ?>">
+                                    <?php endif ?>
 
                                     <div class="col-sm-12 col-lg-2 mb-5">
                                         <div class="card card-custom">
@@ -234,7 +242,7 @@ if (!$dataCekUser || !$dataCekMenu || !validateIP($_SESSION['IP_ADDR'])) {
         <script src="<?= BASE_URL_HTML ?>/assets/custom_js/btn-tab.js"></script>
         <script src="<?= BASE_URL_HTML ?>/assets/custom_js/rupiah.js"></script>
         <script src="js/seksi-informasi.js"></script>
-        <script src="js/seksi-finalisasi.js"></script>
+        <script src="js/seksi-finalisasi.js?v=1.0"></script>
         <script src="js/section-init.js"></script>
         <!-- END JS KHUSUS HALAMAN INI -->
     </body>

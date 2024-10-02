@@ -63,23 +63,107 @@ if (!$dataCekUser || !$dataCekMenu || !validateIP($_SESSION['IP_ADDR']) || !$tok
 
         if ($flag === 'update') {
 
-            $status = statementWrapper(
-                DML_INSERT,
-                'UPDATE 
-                    purchasing 
-                SET 
-                    keterangan = ?,
-                    statusPersetujuan = ?,
-                    idUserEdit = ?
-                WHERE
-                kodePurchasing = ?',
-                [
-                    $keterangan,
-                    $statusPersetujuan,
-                    $idUserAsli,
-                    $kodePurchasing
-                ]
-            );
+            if ($statusPersetujuan == 'Reject') {
+
+                $queries = [
+                    'UPDATE 
+                        stock_po 
+                    SET 
+                        keterangan = ?,
+                        statusPersetujuan = ?,
+                        statusPO = ?,
+                        idUserEdit = ?
+                    WHERE
+                        kodePO = ?',
+                    'DELETE FROM stock_pengiriman_detail
+                    WHERE kodePengiriman IN (
+                        SELECT stock_pengiriman.kodePengiriman 
+                        FROM stock_pengiriman 
+                        INNER JOIN stock_pengiriman_detail ON stock_pengiriman.kodePengiriman = stock_pengiriman_detail.kodePengiriman
+                        WHERE stock_pengiriman.kodePO = ?
+                    )',
+                    'DELETE FROM stock_pengiriman WHERE kodePO = ?'
+                ];
+
+                $parameters = [
+                    [
+                        $keterangan,
+                        $statusPersetujuan,
+                        'Aktif',
+                        $idUserAsli,
+                        $kodePO
+                    ],
+                    [$kodePO],
+                    [$kodePO]
+                ];
+
+                $status = multiStatementWrapper(
+                    DML_UPDATE,
+                    $queries,
+                    $parameters
+                );
+            } else {
+                $queries = [
+                    // UPDATE status Persetujuan
+                    'UPDATE 
+                        stock_po 
+                    SET 
+                        keterangan = ?,
+                        statusPersetujuan = ?,
+                        statusPO = ?,
+                        idUserEdit = ?
+                    WHERE
+                    kodePO = ?',
+                    // INPUT DATA PENGIRIMAN
+                    'INSERT INTO 
+                        stock_pengiriman 
+                    SET 
+                        kodePengiriman = ?,
+                        kodePO = ?,
+                        statusFinalisasi = ?,
+                        idUser = ?',
+                    // INPUT DATA PENGIRIMAN DETAIL
+                    'INSERT INTO 
+                        stock_pengiriman_detail (idUser, kodePengiriman, qty, idPODetail, satuan, subTotal, hargaSatuan, tipeInventory, idInventory, persentaseDiskon, persentasePpn)
+                    SELECT ? as idUSer, ? as kodePengiriman, spd.qty, spd.idPODetail, spd.satuan, spd.subTotal, spd.hargaSatuan, spd.tipeInventory, spd.idInventory, spp.persentaseDiskon, spp.persentasePpn
+                    FROM stock_po_detail as spd
+                    INNER JOIN stock_po_pembayaran as spp ON spd.kodePO = spp.kodePO
+                    WHERE spd.kodePO = ?',
+                ];
+
+                $kodePengiriman = nomorUrut($db, 'stock_pengiriman', 1);
+
+                $parameters = [
+                    [
+                        $keterangan,
+                        $statusPersetujuan,
+                        'Diproses',
+                        $idUserAsli,
+                        $kodePO
+                    ],
+                    [
+                        $kodePengiriman,
+                        $kodePO,
+                        "Aktif",
+                        $idUserAsli
+                    ],
+                    [
+                        $idUserAsli,
+                        $kodePengiriman,
+                        $kodePO,
+                    ]
+                ];
+
+                $status = multiStatementWrapper(
+                    DML_UPDATE,
+                    $queries,
+                    $parameters
+                );
+
+                if ($status) {
+                    updateNomorUrut($db, 'stock_pengiriman', 1);
+                }
+            }
 
             if ($status) {
                 $pesan = 'Proses Update Purchasing Berhasil';
@@ -95,6 +179,11 @@ if (!$dataCekUser || !$dataCekMenu || !validateIP($_SESSION['IP_ADDR']) || !$tok
         $status = false;
         $pesan = 'Terdapat Kesalahan Dalam Proses Input ke Database';
     } finally {
+        if (is_array($status)) {
+            $status  = array_reduce($status, function ($carry, $item) {
+                return $carry && $item;
+            }, true);
+        }
         $data = compact('status', 'pesan', 'more');
     }
 }

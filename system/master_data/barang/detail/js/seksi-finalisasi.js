@@ -1,10 +1,12 @@
 function seksiFormFinalisasi() {
     let kodeBarang = $("#kodeBarang").val();
+    let urlRedirect = $("#urlRedirect").val()?$("#urlRedirect").val():'';
     $.ajax({
         url: "seksi_finalisasi/form-finalisasi.php",
         type: "post",
         data: {
             kodeBarang: kodeBarang,
+            urlRedirect: urlRedirect,
         },
         beforeSend: function () {
             $(".loader-custom").show();
@@ -16,7 +18,7 @@ function seksiFormFinalisasi() {
     });
 }
 
-function prosesFinalisasi() {
+function prosesFinalisasi(redirect='') {
     const kodeBarang = $("input[name=kodeBarang]").val();
     const tokenCSRFForm = $("input[name=tokenCSRFForm]").val();
 
@@ -38,9 +40,15 @@ function prosesFinalisasi() {
             notifikasi(status, pesan);
 
             if (status) {
-                setTimeout(() => {
-                    window.location.href = "../";
-                }, 500);
+                if(redirect!=''){
+                    setTimeout(() => {
+                        window.location.href = redirect;
+                    }, 500);
+                }else{
+                    setTimeout(() => {
+                        window.location.href = "../";
+                    }, 500);
+                }
             }
         },
     });

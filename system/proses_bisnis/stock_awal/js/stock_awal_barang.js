@@ -62,53 +62,13 @@ function getFormStockAwalBarang(idStockAwal = "") {
             $("#boxFormStockAwalBarang").html(data);
             $("select.select2").select2();
 
-            selectInventory(idStockAwal);
         },
     });
 }
 
 function showBarang() {
-	const satuan =  $('#kodeBarang option:selected').data('satuan-barang');
-
-    $('#satuanBarang').text(satuan?satuan:'Satuan');
-    
-}
-
-function selectInventory(idStockAwal = "") {
-    const tipeInventory = $("#tipeInventory").val() ?? "";
-    $.ajax({
-        url: "data-inventory.php",
-        type: "post",
-        data: {
-            idStockAwal: idStockAwal,
-            tipeInventory,
-        },
-        success: function (data, status) {
-            $("#boxSelectInventory").empty().html(data);
-            $("select.select2").select2();
-
-            selectSatuan(idStockAwal);
-        },
-    });
-}
-
-function selectSatuan(idStockAwal = "") {
-    const tipeInventory = $("#tipeInventory").val() ?? "";
-    const idInventory = $("#idInventory").val() ?? "";
-
-    $.ajax({
-        url: "select-satuan.php",
-        type: "post",
-        data: {
-            idStockAwal,
-            tipeInventory,
-            idInventory,
-        },
-        success: function (data) {
-            $("#boxSatuanInventory").empty().html(data);
-            $("select.select2").select2();
-        },
-    });
+	const satuan =  $('#idInventory option:selected').data('satuan-barang');
+    $('#satuan').val(satuan)
 }
 
 function prosesStockAwalBarang() {
@@ -187,10 +147,3 @@ function notifikasi(status, pesan) {
     }
 }
 
-function getTotalStock() {
-    const jumlah = rupiahToNumber($("#jumlah").val());
-    const konversi = rupiahToNumber($("#nilaiKonversi").val());
-
-    const total = jumlah * konversi;
-    $("#total").val(numberToRupiah(total));
-}

@@ -89,31 +89,33 @@ if (!$dataCekUser || !$dataCekMenu || !validateIP($_SESSION['IP_ADDR'])) {
         <input type="hidden" name="idPemasukanPengeluaranLain" value="<?= $idPemasukanPengeluaranLain ?>">
         <input type="hidden" name="kodePemasukanPengeluaranLain" value="<?= $kodePemasukanPengeluaranLain ?>">
         <input type="hidden" name="flag" value="<?= $flag ?>">
-        <div class="form-group ">
-            <label><i class="fa fa-list"></i> Tipe</label><br>
-            <select class="form-control selectpicker" id="tipe" name="tipe" style="width: 100%;">
-                <option value="">Pilih Tipe</option>
-                <?php
-                $arraytipe = array('Pemasukan Lain', 'Pengeluaran Lain');
-                for ($i = 0; $i < count($arraytipe); $i++) {
-                    $selected = selected($arraytipe[$i], $dataUpdate['tipe']);
-                ?>
-                    <option value="<?= $arraytipe[$i] ?>" <?= $selected ?>>
-                        <?= $arraytipe[$i] ?>
-                    </option>
-                <?php
-                }
-                ?>
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="tanggal"><i class="fas fa-calendar-alt"></i> TANGGAL</label>
-            <div class="input-group date" data-date-autoclose="true" data-provide="datepicker" data-date-format="yyyy-mm-dd">
-                <input type="text" class="form-control" id="tanggal" name="tanggal" placeholder="Click to select a date!" value="<?= $dataUpdate['tanggal'] ?? date('Y-m-d') ?>" autocomplete="off">
-                <div class="input-group-append">
-                    <button class="btn btn-outline-secondary" type="button">
-                        <i class="fa fa-calendar"></i>
-                    </button>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label><i class="fa fa-list"></i> Tipe</label><br>
+                <select class="form-control selectpicker" id="tipe" name="tipe" style="width: 100%;">
+                    <option value="">Pilih Tipe</option>
+                    <?php
+                    $arraytipe = array('Pemasukan Lain', 'Pengeluaran Lain');
+                    for ($i = 0; $i < count($arraytipe); $i++) {
+                        $selected = selected($arraytipe[$i], $dataUpdate['tipe']);
+                    ?>
+                        <option value="<?= $arraytipe[$i] ?>" <?= $selected ?>>
+                            <?= $arraytipe[$i] ?>
+                        </option>
+                    <?php
+                    }
+                    ?>
+                </select>
+            </div>
+            <div class="form-group col-md-6">
+                <label for="tanggal"><i class="fas fa-calendar-alt"></i> TANGGAL</label>
+                <div class="input-group date" data-date-autoclose="true" data-provide="datepicker" data-date-format="yyyy-mm-dd">
+                    <input type="text" class="form-control" id="tanggal" name="tanggal" placeholder="Click to select a date!" value="<?= $dataUpdate['tanggal'] ?? date('Y-m-d') ?>" autocomplete="off">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="button">
+                            <i class="fa fa-calendar"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -140,7 +142,7 @@ if (!$dataCekUser || !$dataCekMenu || !validateIP($_SESSION['IP_ADDR'])) {
                 ?>
                     <optgroup label="<?= $row['namaAccount'] . ' (' . $row["kode"] . ')' ?>">
                         <?php foreach ($dataSubAccount as $rowSub) {
-                            $selected = selected($rowSub['idSubAccount'], $dataUpdate['idSubAccount']);
+                            $selected = selected((int)$rowSub['idSubAccount'], (int)$dataUpdate['idSubAccount']);
 
                             if ($row["kodeAccount"] == $rowSub["kodeAccount"]) { ?>
                                 <option value="<?= $rowSub["idSubAccount"] ?>" <?= $selected ?>><?= $rowSub["namaSubAccount"] . ' (' . $rowSub["kodeSub"] . ')' ?></option>

@@ -219,7 +219,7 @@ if (!$dataCekUser || !$dataCekMenu || !validateIP($_SESSION['IP_ADDR'])) {
                                         <!-- END CARD TITLE -->
                                         <!-- CARD TOOLBAR -->
                                         <div class="card-toolbar">
-                                            <button type="button" class="btn btn-primary" onclick="getFormBiaya()">
+                                            <button type="button" class="btn btn-danger" onclick="getFormBiaya()">
                                                 <i class="fas fa-plus-circle pr-4"></i><strong> BIAYA</strong>
                                             </button>
                                         </div>

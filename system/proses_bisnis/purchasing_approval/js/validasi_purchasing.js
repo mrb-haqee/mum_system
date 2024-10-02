@@ -5,36 +5,73 @@ document.addEventListener("readystatechange", function (event) {
       "btn-danger",
       "btn-light-danger"
     );
-    dataDaftarValidasiPurchasing("Pending");
+    dataDaftarSR();
   }
+  $("#periode").daterangepicker({
+    buttonClasses: " btn",
+    applyClass: "btn-primary",
+    cancelClass: "btn-secondary",
+    locale: {
+      format: "YYYY-MM-DD",
+    },
+  });
 });
 
-function dataDaftarValidasiPurchasing(statusPersetujuan) {
+function dataDaftarSR(
+  statusPersetujuan = "",
+  resetDate = true
+) {
+  if (!statusPersetujuan) {
+    statusPersetujuan = $(".btn-detail-purchasing-tab.btn-danger").data(
+      "in-tab"
+    );
+  }
+
+  let startDate = moment().format("YYYY-MM-1");
+  let lastDate = moment().endOf("month").format("YYYY-MM-DD");
+
+  let periode = $("#periode").val();
+
+  if (resetDate && periode !== `${startDate} - ${lastDate}`) {
+    $("#periode").removeAttr("onchange");
+
+    let $datePicker = $("#periode").data("daterangepicker");
+    console.log($datePicker);
+
+    $("#periode").val(startDate + " - " + lastDate);
+
+    $datePicker.setStartDate(startDate);
+    $datePicker.setEndDate(lastDate);
+    periode = `${startDate} - ${lastDate}`;
+  }
+
   $.ajax({
     url: "daftar-daftar-validasi-purchasing.php",
     type: "post",
     data: {
       flag: "daftar",
+      periode,
       statusPersetujuan,
     },
     beforeSend: function () {
       $(".overlay").show();
     },
     success: function (data, status) {
-      //console.log(data);
-      $("#dataDaftarValidasiPurchasing").html(data);
+      $("#dataDaftarSR").html(data);
+      $("#periode").attr("onchange", "dataDaftarSR('', false)");
+
       $(".overlay").hide();
     },
   });
 }
 
-function getDetailPurchasing(kodePurchasing) {
+function getDetailPurchasing(kodePO) {
   $("#modalDetailPurchasing").modal("show");
   $.ajax({
     url: "form-validasi-purchasing.php",
     type: "post",
     data: {
-      kodePurchasing,
+      kodePO,
     },
     success: function (data, status) {
       $("#dataDetailPurchasing").html(data);
@@ -43,17 +80,7 @@ function getDetailPurchasing(kodePurchasing) {
   });
 }
 
-function EditBtn() {
-  $(".btn-detail-purchasing-tab").each(function () {
-    if ($(this).hasClass("btn-light-danger")) {
-      $(this).removeClass("btn-light-danger").addClass("btn-danger");
-    } else if ($(this).hasClass("btn-danger")) {
-      $(this).removeClass("btn-danger").addClass("btn-light-danger");
-    }
-  });
-}
-
-function prosesValidasiPurchasing(kodePurchasing, statusPersetujuan, token) {
+function prosesValidasiPurchasing(kodePO, statusPersetujuan, token) {
   const keterangan = $("#keterangan").val() ? $("#keterangan").val() : "";
 
   Swal.fire({
@@ -70,7 +97,7 @@ function prosesValidasiPurchasing(kodePurchasing, statusPersetujuan, token) {
         type: "post",
         data: {
           flag: "update",
-          kodePurchasing,
+          kodePO,
           statusPersetujuan,
           keterangan,
           tokenCSRFForm: token,
@@ -84,7 +111,7 @@ function prosesValidasiPurchasing(kodePurchasing, statusPersetujuan, token) {
           const inTab = $(".btn-detail-purchasing-tab.btn-danger").data(
             "in-tab"
           );
-          dataDaftarValidasiPurchasing(inTab);
+          dataDaftarSR(inTab);
           $(".overlay").hide();
 
           notifikasi(data.status, data.pesan);

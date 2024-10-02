@@ -131,32 +131,23 @@ if (!$dataCekUser || !$dataCekMenu || !validateIP($_SESSION['IP_ADDR'])) {
                     <select class="form-control selectpicker" id="idSubAccount" name="idSubAccount" data-live-search="true">
                         <option value="">Pilih Akun</option>
                         <?php
-                        $dataAccount = statementWrapper(
-                            DML_SELECT_ALL,
-                            "SELECT * FROM account WHERE 
-                        statusAccount = ?",
-                            ['Aktif']
-                        );
-
-                        $dataSubAccount = statementWrapper(
-                            DML_SELECT_ALL,
-                            "SELECT * FROM sub_account WHERE 
-                        statusSubAccount = ?",
-                            ['Aktif']
-                        );
+                        $dataAccount = statementWrapper(DML_SELECT_ALL, "SELECT * FROM account WHERE statusAccount = ?", ['Aktif']);
+                        $dataSubAccount = statementWrapper(DML_SELECT_ALL, "SELECT * FROM sub_account WHERE statusSubAccount = ?", ['Aktif']);
 
                         foreach ($dataAccount as $row) :
                         ?>
-                            <optgroup label="<?= $row['namaAccount'] . ' (' . $row["kode"] . ')' ?>">
-                                <?php foreach ($dataSubAccount as $rowSub) {
-                                    $selected = selected($rowSub['idSubAccount'], $dataUpdate['idSubAccount']);
-
-                                    if ($row["kodeAccount"] == $rowSub["kodeAccount"]) { ?>
-                                        <option value="<?= $rowSub["idSubAccount"] ?>" <?= $selected ?>><?= $rowSub["namaSubAccount"] . ' (' . $rowSub["idSubAccount"] . ')' ?></option>
-                                <?php }
-                                } ?>
+                            <optgroup label="<?= "{$row['namaAccount']} ({$row['kode']})" ?>">
+                                <?php foreach ($dataSubAccount as $rowSub) :
+                                    if ($row["kodeAccount"] == $rowSub["kodeAccount"]) :
+                                        $selected = selected((int)$rowSub['idSubAccount'], (int)$dataUpdate['idSubAccount']); ?>
+                                        <option value="<?= $rowSub["idSubAccount"] ?>" <?= $selected ?>>
+                                            <?= "{$rowSub['namaSubAccount']} ({$rowSub['idSubAccount']})" ?>
+                                        </option>
+                                <?php endif;
+                                endforeach; ?>
                             </optgroup>
-                        <?php endforeach ?>
+                        <?php endforeach; ?>
+
                     </select>
                 </div>
                 <div class="form-group ">

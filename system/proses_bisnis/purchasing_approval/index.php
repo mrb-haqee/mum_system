@@ -53,7 +53,9 @@ if (!$dataCekUser || !$dataCekMenu || !validateIP($_SESSION['IP_ADDR'])) {
         'fetch'
     );
 
-    extract($_GET, EXTR_SKIP)
+    extract($_GET, EXTR_SKIP);
+
+    $rentang = date('Y-m-01') . ' - ' . date('Y-m-t');
 ?>
 
     <!DOCTYPE html>
@@ -186,13 +188,22 @@ if (!$dataCekUser || !$dataCekMenu || !validateIP($_SESSION['IP_ADDR'])) {
                                     <div class="d-flex align-items-baseline flex-wrap mr-5">
 
                                         <div class="btn-group" role="group">
-                                            <button type="button" onclick="dataDaftarValidasiPurchasing('Pending')" data-in-tab='Pending' class="btn btn-detail-purchasing-tab btn-danger"><i class="fas fa-stream pr-4"></i><strong>PENDING</strong></button>
-                                            <button type="button" onclick="dataDaftarValidasiPurchasing('Approve')" data-in-tab='Approve' class="btn btn-detail-purchasing-tab btn-light-danger "><i class="fas fa-signature pr-4"></i><strong>APPROVE</strong></button>
-                                            <button type="button" onclick="dataDaftarValidasiPurchasing('Reject')" data-in-tab='Reject' class="btn btn-detail-purchasing-tab btn-light-danger "><i class="fas fa-times-circle pr-4"></i><strong>REJECT</strong></button>
+                                            <button type="button" onclick="dataDaftarSR('Pending')" data-in-tab='Pending' class="btn btn-detail-purchasing-tab btn-danger"><i class="fas fa-stream pr-4"></i><strong>PENDING</strong></button>
+                                            <button type="button" onclick="dataDaftarSR('Approve')" data-in-tab='Approve' class="btn btn-detail-purchasing-tab btn-light-danger "><i class="fas fa-signature pr-4"></i><strong>APPROVE</strong></button>
+                                            <button type="button" onclick="dataDaftarSR('Reject')" data-in-tab='Reject' class="btn btn-detail-purchasing-tab btn-light-danger "><i class="fas fa-times-circle pr-4"></i><strong>REJECT</strong></button>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="periode"></label>
+                                        <div class="input-group">
+                                            <input type="text" id="periode" class="form-control min-w-200px" data-date-range="true" value="<?= $rentang ?>">
+                                            <div class="input-group-append">
+                                                <span class="input-group-text"><i class="la la-calendar-check-o"></i></span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
                         <!-- END SUB HEADER -->
@@ -200,18 +211,10 @@ if (!$dataCekUser || !$dataCekMenu || !validateIP($_SESSION['IP_ADDR'])) {
 
                         <!-- ENTRY -->
                         <div class="d-flex flex-column-fluid">
-                            <!--begin::Container-->
                             <div class="container">
-                                <!--begin::Row-->
-                                <div id="dataDaftarValidasiPurchasing" class="row">
-
-                                    <!-- START CONTENT -->
-
-
+                                <div id="dataDaftarSR" class="row">
                                 </div>
-                                <!--end::Row-->
                             </div>
-                            <!--end::Container-->
                         </div>
 
                         <!-- END ENTRY -->

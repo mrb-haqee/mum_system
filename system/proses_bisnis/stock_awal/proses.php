@@ -63,7 +63,7 @@ if (!$dataCekUser || !$dataCekMenu || !validateIP($_SESSION['IP_ADDR']) || !$tok
         if ($flag === 'delete') {
             $status = statementWrapper(
                 DML_DELETE,
-                'DELETE FROM stock_awal_barang WHERE idStockAwal = ?',
+                'DELETE FROM stock_awal WHERE idStockAwal = ?',
                 [$idStockAwal]
             );
 
@@ -77,18 +77,20 @@ if (!$dataCekUser || !$dataCekMenu || !validateIP($_SESSION['IP_ADDR']) || !$tok
             $status = statementWrapper(
                 DML_UPDATE,
                 'UPDATE 
-                    stock_awal_barang 
+                    stock_awal 
                 SET 
                     tanggal = ?, 
-                    qty = ?, 
+                    qtyStock = ?, 
+                    satuanStock = ?, 
                     idUserEdit = ? 
                 WHERE 
-                    kodeBarang = ?', 
+                    idInventory = ?',
                 [
                     $tanggal,
-                    ubahToInt($qty),
+                    ubahToInt($qtyStock),
+                    $satuanStock,
                     $idUserAsli,
-                    $kodeBarang
+                    $idInventory
                 ]
             );
 
@@ -102,17 +104,21 @@ if (!$dataCekUser || !$dataCekMenu || !validateIP($_SESSION['IP_ADDR']) || !$tok
             $status = statementWrapper(
                 DML_INSERT,
                 'INSERT INTO 
-                    stock_awal_barang 
+                    stock_awal 
                 SET 
                     tanggal = ?,
-                    kodeBarang = ?,
-                    qty = ?,
+                    idInventory = ?,
+                    satuanStock = ?,
+                    tipeInventory = ?,
+                    qtyStock = ?,
                     idUser = ?
                 ',
                 [
                     $tanggal,
-                    $kodeBarang,
-                    ubahToInt($qty),
+                    $idInventory,
+                    $satuanStock,
+                    'barang',
+                    ubahToInt($qtyStock),
                     $idUserAsli
                 ]
             );
