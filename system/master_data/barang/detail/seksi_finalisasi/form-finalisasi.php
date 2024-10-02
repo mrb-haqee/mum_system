@@ -118,7 +118,7 @@ if (!$dataCekUser || !$dataCekMenu || !validateIP($_SESSION['IP_ADDR'])) {
                             </div>
                         </div>
                         <div class="col-md-2">
-                            <button class="btn btn-info w-100 h-100 text-center" type="button" onclick="prosesFinalisasi()">
+                            <button class="btn btn-info w-100 h-100 text-center" type="button" onclick="prosesFinalisasi('<?= $urlRedirect ?? '' ?>')">
                                 <strong>FINALISASI</strong>
                             </button>
                         </div>

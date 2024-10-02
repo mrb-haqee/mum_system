@@ -1,7 +1,7 @@
 <?php
 function selected($id1, $id2)
 {
-    return $id1 === $id2 ? 'selected' : '';
+    return $id1 === $id2 ? 'selected' : 'tidak sama';
 }
 
 function checked($id1, $id2)

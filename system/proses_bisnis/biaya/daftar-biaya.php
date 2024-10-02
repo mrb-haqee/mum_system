@@ -64,7 +64,7 @@ if (!$dataCekUser || !$dataCekMenu || !validateIP($_SESSION['IP_ADDR'])) {
     $debet['Pemasukan Lain'] = statementWrapper(
         DML_SELECT,
         "SELECT
-            SUM(nominal) as debet1
+            SUM(nominal) as debet
         FROM
             pemasukan_pengeluaran_lain
             INNER JOIN petty_cash ON pemasukan_pengeluaran_lain.idRekening = petty_cash.idPettyCash 
@@ -75,6 +75,12 @@ if (!$dataCekUser || !$dataCekMenu || !validateIP($_SESSION['IP_ADDR'])) {
         ",
         [$tanggalAwal, 'Pemasukan Lain', 'Petty Cash']
     );
+
+
+    $debet['Testing'] = [
+        'debet' => '3000'
+    ];
+
 
     $kredit['Pengeluaran Lain'] = statementWrapper(
         DML_SELECT,
@@ -223,28 +229,18 @@ if (!$dataCekUser || !$dataCekMenu || !validateIP($_SESSION['IP_ADDR'])) {
                         <span class="d-block font-weight-bold"><?= $row['uraian'] ?></span>
                     </td>
                     <td class="text-right">
-                        <?php
-                        if ($row['jenis'] === 'kurang') {
-                        ?>
+                        <?php if ($row['jenis'] === 'kurang') : ?>
                             <span>-</span>
-                        <?php
-                        } else {
-                        ?>
+                        <?php else: ?>
                             <span>Rp <?= ubahToRupiahDesimal($row['debet'] ?? '0') ?></span>
-                        <?php
-                        } ?>
+                        <?php endif; ?>
                     </td>
                     <td class="text-right">
-                        <?php
-                        if ($row['jenis'] === 'tambah') {
-                        ?>
+                        <?php if ($row['jenis'] === 'tambah') : ?>
                             <span>-</span>
-                        <?php
-                        } else {
-                        ?>
+                        <?php else: ?>
                             <span>Rp <?= ubahToRupiahDesimal($row['kredit'] ?? '0') ?></span>
-                        <?php
-                        } ?>
+                        <?php endif; ?>
                     </td>
                     <td class="text-right">
                         <span class="d-block font-weight-bold">Rp <?= ubahToRupiahDesimal($saldoTabel ?? '0') ?></span>
@@ -261,7 +257,7 @@ if (!$dataCekUser || !$dataCekMenu || !validateIP($_SESSION['IP_ADDR'])) {
                 <td colspan="4" class="text-right"><strong>TOTAL</strong></td>
                 <td class="text-right">Rp <?= ubahToRupiahDesimal($total['debet']); ?></td>
                 <td class="text-right">- Rp <?= ubahToRupiahDesimal($total['kredit']); ?></td>
-                <td></td>
+                <td class="text-right">Rp <?= ubahToRupiahDesimal($total['debet'] - $total['kredit']); ?></td>
             </tr>
         </tbody>
     </table>

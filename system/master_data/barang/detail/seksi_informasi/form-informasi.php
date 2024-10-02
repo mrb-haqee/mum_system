@@ -75,7 +75,6 @@ if (!$dataCekUser || !$dataCekMenu || !validateIP($_SESSION['IP_ADDR'])) {
         $flag = 'tambah';
     }
 
-
 ?>
     <div class="card card-custom">
         <!-- CARD HEADER -->

@@ -58,9 +58,9 @@ if (!$dataCekUser || !$dataCekMenu || !validateIP($_SESSION['IP_ADDR'])) {
     extract($_POST, EXTR_SKIP);
 
     if ($flag === 'update') {
-        $kodePurchasing = $kodePurchasing;
+        $kodeBiaya = $kodeBiaya;
     } else {
-        $kodePurchasing = nomorUrut($db, 'Purchasing', $idUserAsli);
+        $kodeBiaya = nomorUrut($db, 'Biaya', $idUserAsli);
     }
 
     $dataUpdateDetail = statementWrapper(
@@ -68,11 +68,10 @@ if (!$dataCekUser || !$dataCekMenu || !validateIP($_SESSION['IP_ADDR'])) {
         'SELECT 
             *
         FROM 
-            Purchasing_detail
-            INNER JOIN barang ON Purchasing_detail.idBarang = barang.idBarang
+            biaya_detail
         WHERE 
-            Purchasing_detail.idPurchasingDetail = ?',
-        [$idPurchasingDetail]
+            biaya_detail.idBiayaDetail = ?',
+        [$idBiayaDetail]
     );
 
     if ($dataUpdateDetail) {
@@ -82,10 +81,10 @@ if (!$dataCekUser || !$dataCekMenu || !validateIP($_SESSION['IP_ADDR'])) {
     }
 
 ?>
-    <form id="formPurchasingDetail">
+    <form id="formBiayaDetail">
         <input type="hidden" name="tokenCSRFForm" value="<?= $tokenCSRF ?>">
-        <input type="hidden" name="idPurchasingDetail" value="<?= $idPurchasingDetail ?>">
-        <input type="hidden" name="kodePurchasing" value="<?= $kodePurchasing ?>">
+        <input type="hidden" name="idBiayaDetail" value="<?= $idBiayaDetail ?>">
+        <input type="hidden" name="kodeBiaya" value="<?= $kodeBiaya ?>">
         <input type="hidden" name="flag" value="<?= $flagDetail ?>">
         <div class="form-row">
             <div class="form-group col-md-4">
@@ -118,7 +117,7 @@ if (!$dataCekUser || !$dataCekMenu || !validateIP($_SESSION['IP_ADDR'])) {
             </div>
             <div class="form-group col-md-1">
                 <label class="d-block"> &nbsp; </label>
-                <button type="button" class="btn btn-primary text-center" onclick="prosesPurchasingDetail()">
+                <button type="button" class="btn btn-primary text-center" onclick="prosesBiayaDetail()">
                     <i class="fa fa-save"></i>
                 </button>
             </div>
@@ -132,11 +131,11 @@ if (!$dataCekUser || !$dataCekMenu || !validateIP($_SESSION['IP_ADDR'])) {
             "SELECT
                 *
             FROM
-                purchasing_detail
+                biaya_detail
             WHERE
-                kodePurchasing = ?
+                kodeBiaya = ?
             ",
-            [$kodePurchasing]
+            [$kodeBiaya]
         );
         if (count($dataPembelian) > 0) {
         ?>
@@ -166,10 +165,10 @@ if (!$dataCekUser || !$dataCekMenu || !validateIP($_SESSION['IP_ADDR'])) {
                                     <i class="fa fa-cogs"></i>
                                 </button>
                                 <div class="dropdown-menu menu-aksi" aria-labelledby="dropdownMenuButton">
-                                    <button type="button" class="btn btn-warning btn-sm tombol-dropdown" onclick="getFormPurchasingDetail('<?= $row['idPurchasingDetail'] ?>')">
+                                    <button type="button" class="btn btn-warning btn-sm tombol-dropdown" onclick="getFormBiayaDetail('<?= $row['idBiayaDetail'] ?>')">
                                         <i class="fas fa-edit"></i> <strong>EDIT</strong>
                                     </button>
-                                    <button type="button" class="btn btn-danger btn-sm tombol-dropdown-last" onclick="deletePurchasingDetail('<?= $row['idPurchasingDetail'] ?>','<?= $row['kodePurchasing'] ?>', '<?= $tokenCSRF ?>')">
+                                    <button type="button" class="btn btn-danger btn-sm tombol-dropdown-last" onclick="deleteBiayaDetail('<?= $row['idBiayaDetail'] ?>','<?= $row['kodeBiaya'] ?>', '<?= $tokenCSRF ?>')">
                                         <i class="fas fa-trash"></i> <strong>DELETE</strong>
                                     </button>
                                 </div>
@@ -199,7 +198,7 @@ if (!$dataCekUser || !$dataCekMenu || !validateIP($_SESSION['IP_ADDR'])) {
                     <tr>
                         <td colspan="5" class="text-right align-middle"><strong>TOTAL</strong></td>
                         <td class="text-right">Rp <?= ubahToRupiahDesimal($total); ?></td>
-                        <input type="hidden" name="grandTotal" id="grandTotal" value="<?= $total ?>" form="formPurchasing">
+                        <input type="hidden" name="grandTotal" id="grandTotal" value="<?= $total ?>" form="formBiaya">
                     </tr>
                 </tbody>
             </table>
