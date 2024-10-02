@@ -779,7 +779,7 @@ CREATE TABLE `stock_awal` (
 --
 
 /*!40000 ALTER TABLE `stock_awal` DISABLE KEYS */;
-INSERT INTO `stock_awal` VALUES (1,2,'2024-09-26','barang','Sak',24.00,1,'2024-09-26 04:06:42',NULL,'2024-09-26 04:08:38'),(4,1,'2024-09-26','barang','Batang',646.00,1,'2024-09-26 04:11:35',NULL,'2024-09-26 04:11:35'),(5,5,'2024-09-26','barang','Roll',100000.00,1,'2024-09-26 04:47:52',1,'2024-10-01 02:27:53');
+INSERT INTO `stock_awal` VALUES (1,2,'2024-09-26','barang','Sak',300.00,1,'2024-09-26 04:06:42',1,'2024-10-02 05:51:32'),(4,1,'2024-09-26','barang','Batang',200.00,1,'2024-09-26 04:11:35',1,'2024-10-02 05:51:26'),(5,5,'2024-09-26','barang','Roll',100.00,1,'2024-09-26 04:47:52',1,'2024-10-02 05:51:19');
 /*!40000 ALTER TABLE `stock_awal` ENABLE KEYS */;
 
 --
@@ -1294,4 +1294,4 @@ INSERT INTO `vendor` VALUES (1,'MUM/vendor/1/000000001','Customer','ceo vendor',
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-10-02 13:26:59
+-- Dump completed on 2024-10-02 14:37:23
