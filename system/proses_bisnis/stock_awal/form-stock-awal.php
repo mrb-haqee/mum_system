@@ -98,7 +98,7 @@ if (!$dataCekUser || !$dataCekMenu || !validateIP($_SESSION['IP_ADDR'])) {
             </div>
             <div class="form-group col-md-2">
                 <label><i class="fas fa-list"></i> Satuan </label>
-                <input type="text" name="satuan" id="satuan" class="form-control" disabled value="<?= $dataUpdate['satuan'] ?? "" ?>">
+                <input type="text" name="satuan" id="satuan" class="form-control" readonly value="<?= $dataUpdate['satuan'] ?? "" ?>">
             </div>
             <div class="form-group col-md-2">
                 <a class="btn btn-danger mt-md-8 w-100" href="/mum_system/system/master_data/barang/detail/?redirect=/mum_system/system/proses_bisnis/stock_awal_mum/"><i class="fa fa-plus-circle"></i> Barang</a>
@@ -120,7 +120,7 @@ if (!$dataCekUser || !$dataCekMenu || !validateIP($_SESSION['IP_ADDR'])) {
 
             <div class="form-group col-md-2">
                 <label><i class="fas fa-list"></i> QTY </label>
-                <input type="text" name="qty" id="qty" class="form-control" data-format-rupiah="active" value="<?= $dataUpdate['qty'] ?? 0 ?>">
+                <input type="text" name="qty" id="qty" class="form-control" data-format-rupiah="active" value="<?= ubahToRupiahDesimal($dataUpdate['qty']) ?? 0 ?>">
             </div>
 
         </div>

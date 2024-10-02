@@ -36,7 +36,7 @@ function dataDaftarSR(
     $("#periode").removeAttr("onchange");
 
     let $datePicker = $("#periode").data("daterangepicker");
-    console.log($datePicker);
+    // console.log($datePicker);
 
     $("#periode").val(startDate + " - " + lastDate);
 

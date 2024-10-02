@@ -1,6 +1,6 @@
 function seksiFormFinalisasi() {
     const kodeSR = $("#kodeSR").val();
-    console.log(kodeSR);
+    // console.log(kodeSR);
     
     $.ajax({
         url: "seksi_finalisasi/form-finalisasi.php",

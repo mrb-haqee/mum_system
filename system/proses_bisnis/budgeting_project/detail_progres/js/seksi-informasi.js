@@ -81,8 +81,6 @@ function prosesBudgetingProjectProgres() {
 }
 
 function konfirmasiBatalBudgetingProjectProgres(id, token) {
-  console.log("wada");
-
   Swal.fire({
     title: "Apakah anda yakin?",
     text: "Setelah dibatalkan, proses tidak dapat diulangi!",

@@ -38,7 +38,7 @@ function dataDaftar(statusPO = "", dataDaftar = "", resetDate = false) {
     $datePicker.setEndDate(lastDate);
   }
 
-  console.log(statusPO, dataDaftar);
+  // console.log(statusPO, dataDaftar);
 
   const periode = $("#periode").val();
 

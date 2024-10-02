@@ -36,9 +36,7 @@ function showBarang() {
 	const hargaSatuan =  idInventory.data('harga-satuan');
 	const satuan =  idInventory.data('satuan-barang');
 
-    console.log(satuan, hargaSatuan);
-    
-    
+    // console.log(satuan, hargaSatuan);
 
     $('#hargaSatuan').val(hargaSatuan?numberToRupiah(hargaSatuan):0);
     $('#satuan').val(satuan)

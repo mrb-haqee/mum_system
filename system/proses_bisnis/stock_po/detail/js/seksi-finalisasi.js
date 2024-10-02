@@ -1,6 +1,6 @@
 function seksiFormFinalisasi() {
     const kodePO = $("#kodePO").val();
-    console.log(kodePO);
+    // console.log(kodePO);
     
     $.ajax({
         url: "seksi_finalisasi/form-finalisasi.php",

@@ -61,9 +61,7 @@ function getSubAccount(kodeAccount) {
                     kodeAccount,
                 },
                 success: function (data, status) {
-                    console.log(data);
-                    
-                    // $tr.html(data);
+                    $tr.html(data);
                 },
             });
         }

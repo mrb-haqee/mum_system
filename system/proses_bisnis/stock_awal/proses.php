@@ -80,15 +80,15 @@ if (!$dataCekUser || !$dataCekMenu || !validateIP($_SESSION['IP_ADDR']) || !$tok
                     stock_awal 
                 SET 
                     tanggal = ?, 
-                    qtyStock = ?, 
-                    satuanStock = ?, 
+                    qty = ?, 
+                    satuan = ?, 
                     idUserEdit = ? 
                 WHERE 
                     idInventory = ?',
                 [
                     $tanggal,
-                    ubahToInt($qtyStock),
-                    $satuanStock,
+                    ubahToInt($qty),
+                    $satuan,
                     $idUserAsli,
                     $idInventory
                 ]
@@ -108,17 +108,17 @@ if (!$dataCekUser || !$dataCekMenu || !validateIP($_SESSION['IP_ADDR']) || !$tok
                 SET 
                     tanggal = ?,
                     idInventory = ?,
-                    satuanStock = ?,
+                    satuan = ?,
                     tipeInventory = ?,
-                    qtyStock = ?,
+                    qty = ?,
                     idUser = ?
                 ',
                 [
                     $tanggal,
                     $idInventory,
-                    $satuanStock,
+                    $satuan,
                     'barang',
-                    ubahToInt($qtyStock),
+                    ubahToInt($qty),
                     $idUserAsli
                 ]
             );
